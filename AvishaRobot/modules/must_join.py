@@ -5,7 +5,7 @@ from pyrogram.errors import ChatAdminRequired, UserNotParticipant, ChatWriteForb
 from AvishaRobot import pbot as app
 
 #--------------------------
-MUST_JOIN = "The_friendz"
+MUST_JOIN = "Phoenix_HLP"
 #------------------------
 
 NYKAA = [
