@@ -110,7 +110,7 @@ buttons = [
     ],
     [
         InlineKeyboardButton(text="ʀᴇᴘᴏ", callback_data="gib_source"),
-        InlineKeyboardButton(text="ʙᴏᴛs", callback_data="avisha_"),
+        InlineKeyboardButton(text="ʙᴏᴛs", callback_data="bots_"),
         InlineKeyboardButton(text="ᴀʙᴏᴜᴛ", callback_data="avisha_"),
     ],
     [
@@ -450,6 +450,33 @@ def help_button(update, context):
 
     except BadRequest:
         pass
+
+
+def bots_about_callback(update: Update, context: CallbackContext):
+    query = update.callback_query
+    if query.data == "bots_":
+        uptime = get_readable_time((time.time() - StartTime))
+        query.message.edit_caption(f"*⬤ ᴏᴜʀ ᴏᴛʜᴇʀ ʙᴏᴛs 𐏓*"
+            f"\n\n● [Nova UI](https://t.me/novauibot)"
+            f"\n\n● [Ꮢᴇᴍ 花](https://t.me/nova_xprobot)"
+            parse_mode=ParseMode.MARKDOWN,
+
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(text="ʙᴀᴄᴋ", callback_data="avisha_back"),
+                        InlineKeyboardButton(text="ᴅᴇᴠ", url="https://t.me/where_lucy"),
+                    ],
+                ]
+            ),
+            )
+    elif query.data == "avisha_back":
+        first_name = update.effective_user.first_name 
+        query.message.edit_caption(PM_START_TEXT.format(escape_markdown(first_name), BOT_NAME,sql.num_users(),sql.num_chats()),
+            reply_markup=InlineKeyboardMarkup(buttons),
+            parse_mode=ParseMode.MARKDOWN,
+            timeout=60,
+        )
 
 
 def Avisha_about_callback(update: Update, context: CallbackContext):
@@ -1181,6 +1208,9 @@ def main():
     about_callback_handler = CallbackQueryHandler(
         Avisha_about_callback, pattern=r"avisha_", run_async=True
     )
+    bots_callback_handler = CallbackQueryHandler(
+        bots_about_callback, pattern=r"bots_", run_async=True
+    )
     source_callback_handler = CallbackQueryHandler(
         Source_about_callback, pattern=r"source_", run_async=True
     )
@@ -1194,6 +1224,7 @@ def main():
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(help_handler)
     dispatcher.add_handler(about_callback_handler)
+    dispatcher.add_handler(bots_callback_handler)
     dispatcher.add_handler(music_callback_handler)
     dispatcher.add_handler(settings_handler)
     dispatcher.add_handler(help_callback_handler)
